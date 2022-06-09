@@ -469,7 +469,14 @@ Servers 탭 - 오른쪽 버튼 - Add and Remove
 SpringProject > Add - Finish
 
 
-
+1. MVC 이해
+2. DI(의존관계주입) 객체생성 이해
+3. 프로그램 설치 => Maven 이용해서 자동으로 프로그램 설치
+pom.xml 다운받고자하는 코드를 넣으면 자동으로 다운 받아짐
+4. 기본 JDBC 디비작업(MemberDAOImpl sql구문)
+5. 마이바티스(외부프로그램) 디비작업(xml sql구문)
+6. 파일업로드, Ajax 사용
+=> 팀프로젝트 코딩
 
 
 

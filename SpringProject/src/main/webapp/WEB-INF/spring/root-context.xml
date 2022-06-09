@@ -4,5 +4,30 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+<!-- 		<bean id="memberController" class="com.itwillbs.controller.MemberController"> -->
+<!-- 			<constructor-arg ref="memberService"></constructor-arg> -->
+<!-- 		</bean> -->
+
+		<bean id="memberController" class="com.itwillbs.controller.MemberController">
+			<property name="memberService" ref="memberService"></property>
+		</bean>
+		
+		<bean id="memberService" class="com.itwillbs.service.MemberServiceImpl">
+			<property name="memberDAO" ref="memberDAO"></property>
+		</bean>
+		
+		<bean id="memberDAO" class="com.itwillbs.dao.MemberDAOImpl"></bean>
+		
+<!-- 		디비연결 -->
+<!-- <Context> -->
+<!-- 	<Resource name="jdbc/MysqlDB" -->
+<!-- 			  auth="Container" -->
+<!-- 			  type="javax.sql.DataSource" -->
+<!-- 			  driverClassName="com.mysql.cj.jdbc.Driver" -->
+<!-- 			  url="jdbc:mysql://localhost:3306/jspdb7?serverTimezone=Asia/Seoul" -->
+<!-- 			  username="root" -->
+<!-- 			  password="1234"/> -->
+<!-- </Context> -->
 		
 </beans>
