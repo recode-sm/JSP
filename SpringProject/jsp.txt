@@ -479,10 +479,122 @@ pom.xml 다운받고자하는 코드를 넣으면 자동으로 다운 받아짐
 => 팀프로젝트 코딩
 
 
+6/13 인터페이스 구현
 
 
+5. 마이바티스(외부프로그램) 디비작업(xml sql구문)
+1) 프로젝트 만들기
+File -new - other -Spring
+- Spring Legacy Project -Next
+Project name : SpringProject2
+Templates
+Spring MVC Project 선택 -Next
+Yes
+com.itwillbs.myweb2
+Finish
 
+2) 자바버전 => 1.8 변경
+프로젝트 - 오른쪽버튼 - Properties
+java Compiler - JDK Compliance 1.8
+Project Facets - Java - 1.8
+               - Dynamic Web Module 3.0
+               
+3) pom.xml 스프링버전, 프로그램 설치               
+<java-version>1.8</java-version>
+<org.springframework-version>4.1.7.RELEASE</org.springframework-version>
 
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.22</version>
+</dependency>
+		
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-jdbc</artifactId>
+    <version>${org.springframework-version}</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis</artifactId>
+    <version>3.2.8</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis-spring</artifactId>
+    <version>1.2.2</version>
+</dependency>
+
+4) web.xml => 가상주소 서블릿지정, 한글처리  
+<!-- post request	한글처리 -->
+<filter>
+	<filter-name>encoding</filter-name>
+	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+	</init-param>
+</filter>
+
+	<filter-mapping>
+		<filter-name>encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+5)servlet-context.xml
+com.itwillbs.controller
+com.itwillbs.service
+com.itwillbs.dao
+com.itwillbs.domain
+패키지만들고 자동 스캔하도록 설정
+	<context:component-scan base-package="com.itwillbs.controller" />
+	<context:component-scan base-package="com.itwillbs.service" />
+	<context:component-scan base-package="com.itwillbs.dao" />
+
+6)root-context.xml
+		<!-- 		디비연결 -->
+		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+			<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
+			<property name="url" value="jdbc:mysql://localhost:3306/jspdb7?serverTimezone=Asia/Seoul"></property>
+			<property name="username" value="root"></property>
+			<property name="password" value="1234"></property>
+		</bean>
+		<!-- 마이바티스 설정 -->
+		<!-- 		https://mybatis.org/mybatis-3/    
+https://mybatis.org/mybatis-3/getting-started.html-->
+		<!-- 마이바티스 설정 -->
+		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+			<property name="dataSource" ref="dataSource"></property>
+			<property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+			<property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
+		</bean>
+		
+		<!-- 마이바티스 객체생성 -->
+		<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+			<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+		</bean>
+
+7) com.itwillbs.controller  @Controller MemberController	 
+주소매핑 @RequestMapping(value = "/member/insert", method = RequestMethod.GET)
+객체생성
+	@Inject
+	private MemberService memberService;
+
+   com.itwillbs.service 인터페이스 MemberService  클래스 @Service MemberServiceImpl
+   	@Inject
+	private MemberDAO memberDAO;
+	
+      com.itwillbs.dao 인터페이스 MemberDAO  클래스    	@Repository MemberDAOImpl
+      	@Inject
+	private SqlSession sqlSession;
+   
+   
 
 
 

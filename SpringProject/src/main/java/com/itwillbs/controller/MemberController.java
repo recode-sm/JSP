@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -131,10 +132,19 @@ public class MemberController {
 	
 	//  /member/loginPro POST => /member/main 가상주소 이동
 	@RequestMapping(value = "/member/loginPro", method = RequestMethod.POST)
-	public String loginPro() {
+	public String loginPro(MemberDTO memberDTO,HttpSession session) {
 		System.out.println("MemberController loginPro()");
+		System.out.println(memberDTO.getId());
+		System.out.println(memberDTO.getPass());
+		//로그인 처리
+		MemberDTO memberDTO2=memberService.userCheck(memberDTO);
+		if(memberDTO2!=null) {
+			//세션값 생성
+			session.setAttribute("id", memberDTO.getId());
+		}
 		return "redirect:/member/main";
 	}
+	
     //  /member/main     GET  => /member/main.jsp 이동
 	@RequestMapping(value = "/member/main", method = RequestMethod.GET)
 	public String main() {
