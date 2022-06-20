@@ -1,5 +1,7 @@
 package com.itwillbs.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -83,5 +85,70 @@ public class MemberController {
 		return "member/info";
 	}
 	
+	@RequestMapping(value = "/member/update", method = RequestMethod.GET)
+	public String update(HttpSession session,Model model) {
+		//세션값 가져오기
+		String id=(String)session.getAttribute("id");
+		
+		// 디비작업 
+		MemberDTO memberDTO=memberService.getMember(id);
+		
+		// memberDTO 담아서 updateForm.jsp 이동
+//		request.setAttribute("memberDTO",memberDTO);
+		model.addAttribute("memberDTO", memberDTO);
+		
+		// /WEB-INF/views/member/updateForm.jsp
+		return "member/updateForm";
+	}
+	
+	@RequestMapping(value = "/member/updatePro", method = RequestMethod.POST)
+	public String updatePro(MemberDTO memberDTO) {
+		//로그인 메서드호출
+		MemberDTO memberDTO2=memberService.userCheck(memberDTO);
+		if(memberDTO2!=null) {
+			//아이디 비밀번호 일치
+			//수정작업
+			memberService.updateMember(memberDTO);
+			return "redirect:/member/main";
+		}else {
+			//아이디 비밀번호 틀림
+			return "member/msg";
+		}
+	}
+	
+	@RequestMapping(value = "/member/delete", method = RequestMethod.GET)
+	public String delete(HttpSession session,Model model) {
+		// /WEB-INF/views/member/deleteForm.jsp
+		return "member/deleteForm";
+	}
+	@RequestMapping(value = "/member/deletePro", method = RequestMethod.POST)
+	public String deletePro(MemberDTO memberDTO,HttpSession session) {
+		//로그인 메서드호출
+		MemberDTO memberDTO2=memberService.userCheck(memberDTO);
+		if(memberDTO2!=null) {
+			//아이디 비밀번호 일치
+			//삭제작업
+			memberService.deleteMember(memberDTO);
+			//세션값 초기화
+			session.invalidate();
+			return "redirect:/member/main";
+		}else {
+			//아이디 비밀번호 틀림
+			return "member/msg";
+		}
+	}
+	
+	@RequestMapping(value = "/member/list", method = RequestMethod.GET)
+	public String list(HttpSession session,Model model) {
+				
+		// 디비작업 
+		List<MemberDTO> memberList=memberService.getMemberList();
+		
+		// memberDTO 담아서 list.jsp 이동
+		model.addAttribute("memberList", memberList);
+		
+		// /WEB-INF/views/member/list.jsp
+		return "member/list";
+	}
 	
 }

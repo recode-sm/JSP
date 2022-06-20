@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,13 +10,16 @@
 <body>
 <%
 // //session "id" 가져오기
-String id=(String)session.getAttribute("id");
+// String id=(String)session.getAttribute("id");
 // // 세션값 없으면 (세션값이 null이면 ) => loginForm.jsp 이동
 // if(id==null){
 // 	response.sendRedirect("loginForm.jsp");
 // }
 %>
-<%=id %>님 로그인 하셨습니다.<br>
+<c:if test="${empty sessionScope.id }">
+	<c:redirect url="/member/login/"/>
+</c:if>
+${sessionScope.id }님 로그인 하셨습니다.<br>
 <a href="<%=request.getContextPath() %>/member/logout">로그아웃</a><br>
 <a href="<%=request.getContextPath() %>/member/info">회원정보조회</a><br>
 <a href="<%=request.getContextPath() %>/member/update">회원정보수정</a><br>
@@ -26,12 +30,16 @@ String id=(String)session.getAttribute("id");
 // if(id!=null){
 // 	if(id.equals("admin")){
 		%>
-		<a href="<%=request.getContextPath() %>/member/list">회원목록</a>
+		
 		<%
 // 	}
 // }
 %>
-
+<c:if test="${! empty sessionScope.id }">
+	<c:if test="${sessionScope.id == 'admin' }">
+		<a href="<%=request.getContextPath() %>/member/list">회원목록</a>
+	</c:if>
+</c:if>
 </body>
 </html>
 
