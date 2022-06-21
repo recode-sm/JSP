@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +17,7 @@
 // }
 %>
 <c:if test="${empty sessionScope.id }">
-	<c:redirect url="/member/login/"/>
+	<c:redirect  url="/member/login"/>
 </c:if>
 ${sessionScope.id }님 로그인 하셨습니다.<br>
 <a href="<%=request.getContextPath() %>/member/logout">로그아웃</a><br>
@@ -30,13 +30,13 @@ ${sessionScope.id }님 로그인 하셨습니다.<br>
 // if(id!=null){
 // 	if(id.equals("admin")){
 		%>
-		
+<%-- 		<a href="<%=request.getContextPath() %>/member/list">회원목록</a> --%>
 		<%
 // 	}
 // }
 %>
 <c:if test="${! empty sessionScope.id }">
-	<c:if test="${sessionScope.id == 'admin' }">
+	<c:if test="${sessionScope.id =='admin' }">
 		<a href="<%=request.getContextPath() %>/member/list">회원목록</a>
 	</c:if>
 </c:if>
