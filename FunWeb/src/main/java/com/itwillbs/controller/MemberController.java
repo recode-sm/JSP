@@ -1,8 +1,10 @@
 package com.itwillbs.controller;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -30,5 +32,79 @@ public class MemberController {
 		
 		return "redirect:/member/login";
 	}
+	
+	@RequestMapping(value = "/member/login", method = RequestMethod.GET)
+	public String login() {
+		
+		// /WEB-INF/views/member/login.jsp
+		return "member/login";
+	}
+	
+	@RequestMapping(value = "/member/loginPro", method = RequestMethod.POST)
+	public String loginPro(MemberDTO memberDTO,HttpSession session) {
+		
+		MemberDTO memberDTO2=memberService.userCheck(memberDTO);
+		
+		if(memberDTO2!=null) {
+			//아이디 비밀번호 일치 
+			//세션값 생성 "id",id
+			session.setAttribute("id", memberDTO.getId());
+			return "redirect:/main/main";
+		}else {
+			//아이디 비밀번호 틀림 뒤로이동
+			return "member/msg"; 
+		}
+	}
+	
+	@RequestMapping(value = "/main/main", method = RequestMethod.GET)
+	public String main() {
+		
+		// /WEB-INF/views/main/main.jsp
+		return "main/main";
+	}
+	
+	@RequestMapping(value = "/member/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		
+		session.invalidate();
+		
+		return "redirect:/main/main";
+	}
+	
+	@RequestMapping(value = "/member/update", method = RequestMethod.GET)
+	public String update(HttpSession session,Model model) {
+		String id=(String)session.getAttribute("id");
+		
+		MemberDTO memberDTO=memberService.getMember(id);
+		
+		model.addAttribute("memberDTO", memberDTO);
+		
+		// /WEB-INF/views/member/update.jsp
+		return "member/update";
+	}
+	
+	@RequestMapping(value = "/member/updatePro", method = RequestMethod.POST)
+	public String updatePro(MemberDTO memberDTO) {
+		
+		MemberDTO memberDTO2=memberService.userCheck(memberDTO);
+		
+		if(memberDTO2!=null) {
+			//아이디 비밀번호 일치 
+			//수정
+			memberService.updateMember(memberDTO);
+			return "redirect:/main/main";
+		}else {
+			//아이디 비밀번호 틀림 뒤로이동
+			return "member/msg"; 
+		}
+	}
+	
+	@RequestMapping(value = "/member/list", method = RequestMethod.GET)
+	public String list() {
+		
+		// /WEB-INF/views/member/list.jsp
+		return "member/list";
+	}
+	
 	
 }

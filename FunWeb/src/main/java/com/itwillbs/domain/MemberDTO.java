@@ -12,10 +12,10 @@ public class MemberDTO {
 	private String name;
 	private Timestamp date;
 	//추가
-//	String gender;
-//	String email;
-//	String phone;
-//	String address;
+	private String email;
+	private String address;
+	private String phone;
+	private String mobile;
 	
 	// 멤버함수 메서드 정의 
 	// 멤버변수를 외부에서 접근할수 있게 메서드 정의 set() get() 
@@ -44,6 +44,32 @@ public class MemberDTO {
 	}
 	public void setDate(Timestamp date) {
 		this.date = date;
+	}
+
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 	
 

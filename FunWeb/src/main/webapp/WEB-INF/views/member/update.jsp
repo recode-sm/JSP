@@ -1,5 +1,3 @@
-<%@page import="member.MemberDAO"%>
-<%@page import="member.MemberDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -7,8 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>member/update.jsp</title>
-<link href="../css/default.css" rel="stylesheet" type="text/css">
-<link href="../css/subpage.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/subpage.css" rel="stylesheet" type="text/css">
 <!--[if lt IE 9]>
 <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js" type="text/javascript"></script>
 <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/ie7-squish.js" type="text/javascript"></script>
@@ -43,39 +41,30 @@
 </nav>
 <!-- 왼쪽메뉴 -->
 <!-- 본문내용 -->
-<%
-// String id = 세션값 가져오기
-String id=(String)session.getAttribute("id");
-// MemberDAO 객체생성
-MemberDAO memberDAO=new MemberDAO();
-// public 리턴할형 MemberDTO 함수이름 getMember(String id)  메서드 정의
-// MemberDTO memberDTO =  getMember(id) 메서드 호출
-MemberDTO memberDTO=memberDAO.getMember(id);
-%>
 <article>
 <h1>Update Us</h1>
-<form action="updatePro.jsp" id="join" method="post">
+<form action="${pageContext.request.contextPath}/member/updatePro" id="join" method="post">
 <fieldset>
 <legend>Basic Info</legend>
 <label>User ID</label>
-<input type="text" name="id" class="id" value="<%=memberDTO.getId() %>" readonly>
+<input type="text" name="id" class="id" value="${memberDTO.id }" readonly>
 <input type="button" value="dup. check" class="dup"><br>
 <label>Password</label>
 <input type="password" name="pass"><br>
 <label>Name</label>
-<input type="text" name="name" value="<%=memberDTO.getName()%>"><br>
+<input type="text" name="name" value="${memberDTO.name }"><br>
 <label>E-Mail</label>
-<input type="email" name="email" value="<%=memberDTO.getEmail()%>"><br>
+<input type="email" name="email" value="${memberDTO.email }"><br>
 </fieldset>
 
 <fieldset>
 <legend>Optional</legend>
 <label>Address</label>
-<input type="text" name="address" value="<%=memberDTO.getAddress()%>"><br>
+<input type="text" name="address" value="${memberDTO.address }"><br>
 <label>Phone Number</label>
-<input type="text" name="phone" value="<%=memberDTO.getPhone()%>"><br>
+<input type="text" name="phone" value="${memberDTO.phone }"><br>
 <label>Mobile Phone Number</label>
-<input type="text" name="mobile" value="<%=memberDTO.getMobile()%>"><br>
+<input type="text" name="mobile" value="${memberDTO.mobile }"><br>
 </fieldset>
 <div class="clear"></div>
 <div id="buttons">

@@ -81,16 +81,6 @@
  
  
  <script type="text/javascript">
-//  function dupcheck() {
-// // 	alert("아이디 중복체크");
-// 	if(document.fr.id.value==""){
-// 		alert("아이디 입력하세요");
-// 		document.fr.id.focus();
-// 		return;
-// 	}
-// 	var id=document.fr.id.value;
-// 	window.open("dupcheck.jsp?id="+id,"win","width=500,height=300");
-//  }
 
 $(document).ready(function(){
 	// id="dup" 클릭했을때  dupcheck2.jsp 페이지에 id="id" val() 값을 가지고 가서
@@ -98,9 +88,14 @@ $(document).ready(function(){
 	$('#dup').click(function(){
 // 		alert("클릭");
 		$.ajax({
-			url:'dupcheck2.jsp',
+			url:'${pageContext.request.contextPath}/member/dupcheck',
 			data:{'id':$('#id').val()},
 			success:function(rdata){
+				if(rdata=="iddup"){
+					rdata="아이디 중복";
+				}else{
+					rdata="아이디 사용가능";
+				}
 				$('#dupdiv').html(rdata);
 			}
 		});
